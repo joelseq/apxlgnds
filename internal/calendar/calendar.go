@@ -50,23 +50,28 @@ func (s *service) FetchEvents(ctx context.Context) (*types.CalendarEventsRespons
 		// Using the start as a filter for deleted events
 		if item.Start != nil {
 			event := types.Event{}
-			dateStr := item.Start.DateTime
-			if dateStr == "" {
-				dateStr = item.Start.Date
+			startDateStr := item.Start.DateTime
+			if startDateStr == "" {
+				startDateStr = item.Start.Date
 			}
-			date := getDateFromString(dateStr)
-			fmt.Printf("%v (%v)\n", item.Summary, date)
+			startDate := getDateFromString(startDateStr)
+
+			endDateStr := item.End.DateTime
+			if endDateStr == "" {
+				endDateStr = item.Start.Date
+			}
+			endDate := getDateFromString(endDateStr)
+
+			fmt.Printf("%v (%v)\n", item.Summary, startDateStr)
+
 			event.Title = item.Summary
 			event.Description = item.Description
-			event.Date = date
+			event.StartDate = startDate
+			event.EndDate = endDate
+
 			res.Events = append(res.Events, event)
 		}
 	}
-
-	// err = s.cache.SetResult(ctx, res)
-	// if err != nil {
-	// 	return nil, fmt.Errorf("failed to set events: %w", err)
-	// }
 
 	return res, nil
 }

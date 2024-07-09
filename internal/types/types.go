@@ -13,7 +13,8 @@ type CalendarEventsResponse struct {
 type Event struct {
 	Title       string    `json:"title,omitempty"`
 	Description string    `json:"description,omitempty"`
-	Date        time.Time `json:"date,omitempty"`
+	StartDate   time.Time `json:"startDate,omitempty"`
+	EndDate     time.Time `json:"endDate,omitempty"`
 }
 
 func EncodeResponse(res *CalendarEventsResponse) ([]byte, error) {

@@ -28,6 +28,7 @@ func NewServer(port string, cache cache.Cacher, calendarService calendar.Service
 func (s *Server) Start() {
 	e := echo.New()
 	e.Use(middleware.Logger())
+	e.Use(middleware.CORS())
 
 	e.GET("/events", s.handleEvents)
 	e.GET("/health", s.handleHealth)
