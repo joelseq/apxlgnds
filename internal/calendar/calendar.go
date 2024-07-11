@@ -35,7 +35,7 @@ func (s *service) FetchEvents(ctx context.Context) (*types.CalendarEventsRespons
 	}
 
 	// Get a date string for 2 weeks ago
-	timeMinDate := time.Now().AddDate(0, 0, -14).Format(time.RFC3339)
+	timeMinDate := time.Now().AddDate(0, 0, -7).Format(time.RFC3339)
 	timeMaxDate := time.Now().AddDate(0, 0, 7).Format(time.RFC3339)
 
 	events, err := srv.Events.List(calendarID).ShowDeleted(false).TimeMin(timeMinDate).TimeMax(timeMaxDate).OrderBy("startTime").SingleEvents(true).Do()
