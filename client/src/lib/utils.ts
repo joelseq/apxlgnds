@@ -1,4 +1,5 @@
 import type { Event } from '$lib/types'
+import { formatRelative } from 'date-fns'
 
 export function splitEvents(events: Event[]): { past: Event[]; upcoming: Event[] } {
   const now = new Date().getTime()
@@ -16,43 +17,75 @@ function getTimeFromString(date: string): number {
 }
 
 export function timeUntilEvent(event: Event): string {
-  const now = new Date()
-  const startDate = new Date(event.startDate)
-  const endDate = new Date(event.endDate)
+  const now = new Date().getTime()
+  const startDate = getTimeFromString(event.startDate)
+  const endDate = getTimeFromString(event.endDate)
 
   // Check if the event is happening now
   if (startDate <= now && endDate >= now) {
     return 'Now'
   }
 
-  const diffDate = startDate.getTime() - now.getTime() > 0 ? startDate : endDate
+  const diffDate = startDate - now > 0 ? startDate : endDate
 
-  const diff = diffDate.getTime() - now.getTime()
-  let suffix = 'left'
-  if (diff < 0) {
-    suffix = 'ago'
+  return formatRelative(diffDate, new Date())
+}
+
+// Helper functions for formatting from ChatGPT
+
+// Helper function to format time
+function formatTime(date: Date) {
+  let hours = date.getHours()
+  let minutes: string | number = date.getMinutes()
+  let period = hours >= 12 ? 'pm' : 'am'
+  hours = hours % 12 || 12 // Convert to 12-hour format
+  minutes = minutes < 10 ? '0' + minutes : minutes
+  return `${hours}:${minutes}${period}`
+}
+
+// Days of the week
+const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+// Months of the year
+const monthsOfYear = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+]
+
+// Helper function to format date
+function formatDate(date: Date) {
+  let dayOfWeek = daysOfWeek[date.getDay()]
+  let month = monthsOfYear[date.getMonth()]
+  let day = date.getDate()
+  return `${dayOfWeek}, ${month} ${day}`
+}
+
+export function formatDuration(startDateStr: string, endDateStr: string): string {
+  const startDate = new Date(startDateStr)
+  const endDate = new Date(endDateStr)
+  // Extracting the start date parts
+  let startDayFormatted = formatDate(startDate)
+
+  // Formatting the start and end times
+  let startTime = formatTime(startDate)
+  let endTime = formatTime(endDate)
+
+  // Check if the end date is on a different day
+  let endDayFormatted = formatDate(endDate)
+  if (startDayFormatted !== endDayFormatted) {
+    return `${startDayFormatted}, ${startTime} – ${endDayFormatted}, ${endTime}`
   }
 
-  const absDiff = Math.abs(diff)
-
-  // Calculate the difference in days, hours, minutes
-  const days = Math.floor(absDiff / (1000 * 60 * 60 * 24))
-  const hours = Math.floor((absDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-  const minutes = Math.floor((absDiff % (1000 * 60 * 60)) / (1000 * 60))
-
-  if (days > 0) {
-    if (hours > 0) {
-      return `${days}d ${hours}h ${suffix}`
-    } else {
-      return `${days}d ${suffix}`
-    }
-  } else if (hours > 0) {
-    if (minutes > 0) {
-      return `${hours}h ${minutes}m ${suffix}`
-    } else {
-      return `${hours}h ${suffix}`
-    }
-  } else {
-    return `${minutes}m ${suffix}`
-  }
+  // If the end date is on the same day
+  return `${startDayFormatted}, ${startTime} – ${endTime}`
 }
