@@ -1,15 +1,35 @@
 <!doctype html>
 <html lang="en" class="dark">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Anton+SC&display=swap" rel="stylesheet" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		%sveltekit.head%
-	</head>
-	<body data-sveltekit-preload-data="hover" data-theme="crimson">
-		<div style="display: contents">%sveltekit.body%</div>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%sveltekit.assets%/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anton+SC&display=swap" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- HTML Meta Tags -->
+    <title>ApxLgnds</title>
+    <meta name="description" content="View past and upcoming Apex Legends events" />
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://apxlgnds.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="ApxLgnds" />
+    <meta property="og:description" content="View past and upcoming Apex Legends events" />
+    <meta property="og:image" content="%sveltekit.assets%/og-banner.png" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="apxlgnds.com" />
+    <meta property="twitter:url" content="https://apxlgnds.com/" />
+    <meta name="twitter:title" content="ApxLgnds" />
+    <meta name="twitter:description" content="View past and upcoming Apex Legends events" />
+    <meta name="twitter:image" content="%sveltekit.assets%/og-banner.png" />
+
+    <!-- Meta Tags Generated via https://www.opengraph.xyz -->
+    %sveltekit.head%
+  </head>
+  <body data-sveltekit-preload-data="hover" data-theme="crimson">
+    <div style="display: contents">%sveltekit.body%</div>
+  </body>
 </html>
