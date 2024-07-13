@@ -6,8 +6,14 @@ import (
 	"time"
 )
 
+type EventGroup struct {
+	Upcoming []Event `json:"upcoming,omitempty"`
+	Recent   []Event `json:"recent,omitempty"`
+}
+
 type CalendarEventsResponse struct {
-	Events []Event `json:"events"`
+	ALGS  *EventGroup `json:"algs,omitempty"`
+	Other *EventGroup `json:"other,omitempty"`
 }
 
 type Event struct {

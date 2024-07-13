@@ -5,6 +5,12 @@ export type Event = {
   endDate: string
 }
 
+type EventGroup = {
+  upcoming: Event[]
+  recent: Event[]
+}
+
 export type EventsResponse = {
-  events: Event[]
+  algs: EventGroup
+  other: EventGroup
 }

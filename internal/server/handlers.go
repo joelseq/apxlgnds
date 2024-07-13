@@ -12,7 +12,7 @@ import (
 
 func (s *Server) handleEvents(c echo.Context) error {
 	ctx := c.Request().Context()
-	events, err := s.GetEvents(ctx)
+	events, err := s.GetEvents(ctx, eventLimit)
 	if err != nil {
 		return err
 	}
@@ -24,7 +24,7 @@ func (s *Server) handleHealth(c echo.Context) error {
 	return c.String(200, "ok")
 }
 
-func (s *Server) GetEvents(ctx context.Context) (*types.CalendarEventsResponse, error) {
+func (s *Server) GetEvents(ctx context.Context, eventLimit int) (*types.CalendarEventsResponse, error) {
 	cachedRes, err := s.cache.GetResult(ctx)
 	if err != nil && err != cache.ErrCacheEmpty {
 		return nil, fmt.Errorf("failed to get events: %w", err)
@@ -34,7 +34,7 @@ func (s *Server) GetEvents(ctx context.Context) (*types.CalendarEventsResponse, 
 		return cachedRes, nil
 	}
 
-	events, err := s.calendar.FetchEvents(ctx)
+	events, err := s.calendar.FetchEvents(ctx, eventLimit)
 	if err != nil {
 		return nil, err
 	}
