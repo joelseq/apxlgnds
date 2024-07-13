@@ -5,7 +5,7 @@ import axios from 'axios'
 export async function load() {
   const response = await axios.get(`${PUBLIC_BASE_API_URL}/events`)
 
-  const events: EventsResponse['events'] = response.data.events
+  const events: EventsResponse = response.data
 
   return {
     events,

@@ -26,9 +26,9 @@ export function timeUntilEvent(event: Event): string {
     return 'Now'
   }
 
-  const diffDate = startDate - now > 0 ? startDate : endDate
+  // const diffDate = startDate - now > 0 ? startDate : endDate
 
-  return formatRelative(diffDate, new Date())
+  return formatRelative(startDate, new Date())
 }
 
 // Helper functions for formatting from ChatGPT
