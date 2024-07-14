@@ -47,7 +47,7 @@ func (s *service) FetchEvents(ctx context.Context, eventLimit int) (*types.Calen
 	fmt.Printf("Fetched events count: %d\n", len(events.Items))
 	redditResponse, err := GetRedditALGSThreads(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get events: %w", err)
+		fmt.Printf("failed to get reddit response: %v\n", err)
 	}
 
 	return generateResponse(events, eventLimit, redditResponse)
