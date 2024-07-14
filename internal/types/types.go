@@ -25,11 +25,16 @@ type Event struct {
 }
 
 type EventMetadata struct {
-	Region      string `json:"region"`
-	Day         int    `json:"day"`
-	RedditURL   string `json:"reddit_url"`
-	BattlefyURL string `json:"battlefy_url"`
-	IsFinals    bool   `json:"is_finals"`
+	Region      string          `json:"region,omitempty"`
+	Day         int             `json:"day,omitempty"`
+	Reddit      *RedditMetadata `json:"reddit,omitempty"`
+	BattlefyURL string          `json:"battlefy_url,omitempty"`
+	IsFinals    bool            `json:"is_finals,omitempty"`
+}
+
+type RedditMetadata struct {
+	URL   string `json:"url,omitempty"`
+	Title string `json:"title,omitempty"`
 }
 
 func EncodeResponse(res *CalendarEventsResponse) ([]byte, error) {
@@ -61,8 +66,8 @@ func DecodeResponse(val []byte) (*CalendarEventsResponse, error) {
 type Region string
 
 const (
-	RegionAPACNorth Region = "APACN"
-	RegionAPACSouth Region = "APACS"
+	RegionAPACNorth Region = "APAC-N"
+	RegionAPACSouth Region = "APAC-S"
 	RegionEMEA      Region = "EMEA"
 	RegionNA        Region = "NA"
 	RegionUnknown   Region = "Unknown"

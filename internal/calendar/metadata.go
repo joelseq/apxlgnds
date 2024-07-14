@@ -9,7 +9,7 @@ import (
 	"github.com/joelseq/apxlgnds/internal/types"
 )
 
-func addMetadataForEvents(events []types.Event) {
+func addMetadataForEvents(events []types.Event, redditResponse *RedditResponse) {
 	for i, event := range events {
 		region := getRegion(event.Title)
 		day := getDay(event.Title)
@@ -24,6 +24,7 @@ func addMetadataForEvents(events []types.Event) {
 					Day:         parsedDay,
 					IsFinals:    isFinals,
 					BattlefyURL: getBattlefyURL(region, parsedDay, isFinals),
+					Reddit:      getRedditMetadata(region, day, isFinals, redditResponse),
 				}
 			}
 		}
@@ -71,4 +72,26 @@ func getBattlefyURL(region types.Region, day int, isFinals bool) string {
 	}
 
 	return fmt.Sprintf("https://battlefy.com/apex-legends-global-series-year-4/%s/%s/65fc89113fce34803f734707/round/%d/match/%d", splitURLParam, region.URLParam(), day-1, day-1)
+}
+
+func getRedditMetadata(region types.Region, day string, isFinals bool, redditResponse *RedditResponse) *types.RedditMetadata {
+	if redditResponse == nil {
+		return nil
+	}
+
+	for _, thread := range redditResponse.Data.Children {
+		title := thread.Data.Title
+		dayString := "Day " + day
+		if isFinals {
+			dayString = "Regional Finals"
+		}
+		if strings.Contains(title, "ALGS Pro League: Y4 Split 2") && strings.Contains(title, string(region)) && strings.Contains(title, dayString) {
+			return &types.RedditMetadata{
+				URL:   thread.Data.URL,
+				Title: title,
+			}
+		}
+	}
+
+	return nil
 }

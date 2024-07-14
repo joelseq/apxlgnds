@@ -9,8 +9,13 @@ export type Event = {
 type EventMetadata = {
   day?: string
   region?: string
-  reddit_url?: string
+  reddit?: RedditMetadata
   battlefy_url?: string
+}
+
+type RedditMetadata = {
+  title: string
+  url: string
 }
 
 type EventGroup = {

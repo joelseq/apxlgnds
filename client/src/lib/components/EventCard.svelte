@@ -17,17 +17,28 @@
     </div>
   </svelte:fragment>
   <svelte:fragment slot="content">
-    <div class="text-wrap break-words text-left">
-      <strong>{formatDuration(event.startDate, event.endDate)}</strong>
+    <div class="text-wrap break-words text-left space-y-2">
+      <div>
+        <strong>{formatDuration(event.startDate, event.endDate)}</strong>
+      </div>
       {#if event.metadata?.battlefy_url}
         <div>
+          <strong>Battlefy: </strong>
           <a
-            class="underline"
+            class="underline mr-4"
             href={event.metadata.battlefy_url}
             target="_blank"
             title="View in battlefy"
           >
-            Battlefy
+            {event.metadata.battlefy_url}
+          </a>
+        </div>
+      {/if}
+      {#if event.metadata?.reddit}
+        <div>
+          <strong>Reddit: </strong>
+          <a class="underline mr-4" href={event.metadata.reddit.url}>
+            {event.metadata.reddit.title}
           </a>
         </div>
       {/if}

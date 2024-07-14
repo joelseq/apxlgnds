@@ -45,6 +45,17 @@ func (s *service) FetchEvents(ctx context.Context, eventLimit int) (*types.Calen
 	}
 
 	fmt.Printf("Fetched events count: %d\n", len(events.Items))
+	redditResponse, err := GetRedditALGSThreads(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get events: %w", err)
+	}
+
+	return generateResponse(events, eventLimit, redditResponse)
+}
+
+func generateResponse(events *calendar.Events, eventLimit int, redditResponse *RedditResponse) (*types.CalendarEventsResponse, error) {
+	res := types.CalendarEventsResponse{}
+
 	parsedEvents := parseEvents(events)
 	algsEvents := filterEvent(parsedEvents, func(event types.Event) bool {
 		return strings.Contains(event.Title, "ALGS")
@@ -53,11 +64,9 @@ func (s *service) FetchEvents(ctx context.Context, eventLimit int) (*types.Calen
 		return !strings.Contains(event.Title, "ALGS")
 	})
 
-	res := types.CalendarEventsResponse{}
-
 	res.ALGS = groupEvents(algsEvents, eventLimit)
 	res.Other = groupEvents(otherEvents, eventLimit)
-	addALGSMetadata(res.ALGS)
+	addALGSMetadata(res.ALGS, redditResponse)
 
 	return &res, nil
 }
@@ -120,9 +129,9 @@ func groupEvents(events []types.Event, limit int) *types.EventGroup {
 	}
 }
 
-func addALGSMetadata(events *types.EventGroup) {
-	addMetadataForEvents(events.Upcoming)
-	addMetadataForEvents(events.Recent)
+func addALGSMetadata(events *types.EventGroup, redditResponse *RedditResponse) {
+	addMetadataForEvents(events.Upcoming, redditResponse)
+	addMetadataForEvents(events.Recent, redditResponse)
 }
 
 func lenOrLimit(slice []types.Event, limit int) []types.Event {
