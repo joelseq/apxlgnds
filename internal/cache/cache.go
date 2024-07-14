@@ -53,5 +53,5 @@ func (c *cache) SetResult(ctx context.Context, response *types.CalendarEventsRes
 	if err != nil {
 		return err
 	}
-	return c.client.Set(ctx, cacheKey, val, 1*time.Hour).Err()
+	return c.client.Set(ctx, cacheKey, val, 5*time.Minute).Err()
 }
