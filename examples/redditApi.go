@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/joelseq/apxlgnds/internal/calendar"
@@ -10,10 +9,10 @@ import (
 
 func main() {
 	ctx := context.Background()
-	res, err := calendar.GetRedditALGSThreads(ctx)
+	_, err := calendar.GetRedditALGSThreads(ctx, false)
 	if err != nil {
 		log.Fatalf("failed to get reddit threads: %v", err)
 	}
 
-	fmt.Printf("Reddit threads: %v\n", res)
+	// fmt.Printf("Reddit threads: %v\n", res)
 }

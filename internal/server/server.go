@@ -35,6 +35,7 @@ func (s *Server) Start() {
 	e.Use(middleware.CORS())
 
 	e.GET("/events", s.handleEvents)
+	e.GET("/reddit", s.handleReddit)
 	e.GET("/", s.handleHealth)
 	e.Logger.Fatal(e.Start(":" + s.port))
 }

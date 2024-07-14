@@ -1,8 +1,11 @@
 package calendar
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -26,7 +29,7 @@ type ThreadData struct {
 	URL   string
 }
 
-func GetRedditALGSThreads(ctx context.Context) (*RedditResponse, error) {
+func GetRedditALGSThreads(ctx context.Context, debug bool) (*RedditResponse, error) {
 	request, err := http.NewRequestWithContext(ctx, "GET", redditAPIURL, nil)
 	if err != nil {
 		return nil, err
@@ -35,9 +38,19 @@ func GetRedditALGSThreads(ctx context.Context) (*RedditResponse, error) {
 	if err != nil {
 		return nil, err
 	}
+	var buf bytes.Buffer
+	tee := io.TeeReader(resp.Body, &buf)
+	body, err := io.ReadAll(tee)
+	if err != nil {
+		return nil, err
+	}
+
+	if debug {
+		fmt.Printf("Reddit response: %s", body)
+	}
 
 	data := RedditResponse{}
-	if err = json.NewDecoder(resp.Body).Decode(&data); err != nil {
+	if err = json.NewDecoder(&buf).Decode(&data); err != nil {
 		return nil, err
 	}
 

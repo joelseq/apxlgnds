@@ -6,6 +6,7 @@ import (
 	"log/slog"
 
 	"github.com/joelseq/apxlgnds/internal/cache"
+	"github.com/joelseq/apxlgnds/internal/calendar"
 	"github.com/joelseq/apxlgnds/internal/types"
 	"github.com/labstack/echo/v4"
 )
@@ -45,4 +46,15 @@ func (s *Server) GetEvents(ctx context.Context, eventLimit int) (*types.Calendar
 	}
 
 	return events, nil
+}
+
+func (s *Server) handleReddit(c echo.Context) error {
+	ctx := c.Request().Context()
+	res, err := calendar.GetRedditALGSThreads(ctx, true)
+	if err != nil {
+		fmt.Printf("failed to get reddit threads: %v", err)
+		return err
+	}
+
+	return c.JSON(200, res)
 }
