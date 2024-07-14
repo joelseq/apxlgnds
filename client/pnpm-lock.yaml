@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@accuser/svelte-plausible-analytics':
+        specifier: ^1.0.0
+        version: 1.0.0(@sveltejs/kit@2.5.18(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.178)(vite@5.3.3(@types/node@20.14.10)))(svelte@5.0.0-next.178)(vite@5.3.3(@types/node@20.14.10)))(svelte@5.0.0-next.178)
       '@vercel/analytics':
         specifier: ^1.3.1
         version: 1.3.1
@@ -95,6 +98,12 @@ importers:
         version: 1.6.0(@types/node@20.14.10)
 
 packages:
+
+  '@accuser/svelte-plausible-analytics@1.0.0':
+    resolution: {integrity: sha512-wZegJmMt3UGmTMo1KXEDL7pKjK/GyKfFAociujHsCKkCuzNIIfUhydancxnettLZVfBaOJe6xT6OrPpo/kfBYg==}
+    peerDependencies:
+      '@sveltejs/kit': ^1.30.3 || ^2.0.0
+      svelte: ^4.2.8
 
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
@@ -1866,6 +1875,11 @@ packages:
     resolution: {integrity: sha512-rAbqEGa8ovJy4pyBxZM70hg4pE6gDgaQ0Sl9M3enG3I0d6H4XSAM3GeNGLKnsBpuijUow064sf7ww1nutC5/3w==}
 
 snapshots:
+
+  '@accuser/svelte-plausible-analytics@1.0.0(@sveltejs/kit@2.5.18(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.178)(vite@5.3.3(@types/node@20.14.10)))(svelte@5.0.0-next.178)(vite@5.3.3(@types/node@20.14.10)))(svelte@5.0.0-next.178)':
+    dependencies:
+      '@sveltejs/kit': 2.5.18(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.178)(vite@5.3.3(@types/node@20.14.10)))(svelte@5.0.0-next.178)(vite@5.3.3(@types/node@20.14.10))
+      svelte: 5.0.0-next.178
 
   '@alloc/quick-lru@5.2.0': {}
 
