@@ -34,6 +34,9 @@ func GetRedditALGSThreads(ctx context.Context, debug bool) (*RedditResponse, err
 	if err != nil {
 		return nil, err
 	}
+
+	request.Header.Add("Accept", "application/json")
+
 	resp, err := http.DefaultClient.Do(request)
 	if err != nil {
 		return nil, err
