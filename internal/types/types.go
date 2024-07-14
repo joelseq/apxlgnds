@@ -17,10 +17,19 @@ type CalendarEventsResponse struct {
 }
 
 type Event struct {
-	Title       string    `json:"title,omitempty"`
-	Description string    `json:"description,omitempty"`
-	StartDate   time.Time `json:"startDate,omitempty"`
-	EndDate     time.Time `json:"endDate,omitempty"`
+	StartDate   time.Time     `json:"startDate,omitempty"`
+	EndDate     time.Time     `json:"endDate,omitempty"`
+	Metadata    EventMetadata `json:"metadata,omitempty"`
+	Title       string        `json:"title,omitempty"`
+	Description string        `json:"description,omitempty"`
+}
+
+type EventMetadata struct {
+	Region      string `json:"region"`
+	Day         int    `json:"day"`
+	RedditURL   string `json:"reddit_url"`
+	BattlefyURL string `json:"battlefy_url"`
+	IsFinals    bool   `json:"is_finals"`
 }
 
 func EncodeResponse(res *CalendarEventsResponse) ([]byte, error) {
@@ -47,4 +56,29 @@ func DecodeResponse(val []byte) (*CalendarEventsResponse, error) {
 	}
 
 	return &res, nil
+}
+
+type Region string
+
+const (
+	RegionAPACNorth Region = "APACN"
+	RegionAPACSouth Region = "APACS"
+	RegionEMEA      Region = "EMEA"
+	RegionNA        Region = "NA"
+	RegionUnknown   Region = "Unknown"
+)
+
+func (r Region) URLParam() string {
+	switch r {
+	case RegionAPACNorth:
+		return "asia-pacific-north"
+	case RegionAPACSouth:
+		return "asia-pacific-south"
+	case RegionEMEA:
+		return "europe-middle-east-and-africa"
+	case RegionNA:
+		return "north-america"
+	default:
+		panic("Unknown region provided")
+	}
 }

@@ -57,6 +57,7 @@ func (s *service) FetchEvents(ctx context.Context, eventLimit int) (*types.Calen
 
 	res.ALGS = groupEvents(algsEvents, eventLimit)
 	res.Other = groupEvents(otherEvents, eventLimit)
+	addALGSMetadata(res.ALGS)
 
 	return &res, nil
 }
@@ -117,6 +118,11 @@ func groupEvents(events []types.Event, limit int) *types.EventGroup {
 		Upcoming: lenOrLimit(upcoming, limit),
 		Recent:   lenOrLimit(recent, limit),
 	}
+}
+
+func addALGSMetadata(events *types.EventGroup) {
+	addMetadataForEvents(events.Upcoming)
+	addMetadataForEvents(events.Recent)
 }
 
 func lenOrLimit(slice []types.Event, limit int) []types.Event {
