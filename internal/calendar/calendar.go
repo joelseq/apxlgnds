@@ -97,7 +97,7 @@ func groupEvents(events []types.Event, limit int) *types.EventGroup {
 	var upcoming []types.Event
 	var recent []types.Event
 	for _, event := range events {
-		if event.StartDate.After(time.Now()) {
+		if event.StartDate.After(time.Now()) || event.EndDate.After(time.Now()) {
 			upcoming = append(upcoming, event)
 		} else {
 			recent = append(recent, event)
