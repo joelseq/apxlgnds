@@ -37,7 +37,7 @@ export function timeUntilEvent(event: Event): string {
 function formatTime(date: Date) {
   let hours = date.getHours()
   let minutes: string | number = date.getMinutes()
-  let period = hours >= 12 ? 'pm' : 'am'
+  const period = hours >= 12 ? 'pm' : 'am'
   hours = hours % 12 || 12 // Convert to 12-hour format
   minutes = minutes < 10 ? '0' + minutes : minutes
   return `${hours}:${minutes}${period}`
@@ -64,9 +64,9 @@ const monthsOfYear = [
 
 // Helper function to format date
 function formatDate(date: Date) {
-  let dayOfWeek = daysOfWeek[date.getDay()]
-  let month = monthsOfYear[date.getMonth()]
-  let day = date.getDate()
+  const dayOfWeek = daysOfWeek[date.getDay()]
+  const month = monthsOfYear[date.getMonth()]
+  const day = date.getDate()
   return `${dayOfWeek}, ${month} ${day}`
 }
 
@@ -74,14 +74,14 @@ export function formatDuration(startDateStr: string, endDateStr: string): string
   const startDate = new Date(startDateStr)
   const endDate = new Date(endDateStr)
   // Extracting the start date parts
-  let startDayFormatted = formatDate(startDate)
+  const startDayFormatted = formatDate(startDate)
 
   // Formatting the start and end times
-  let startTime = formatTime(startDate)
-  let endTime = formatTime(endDate)
+  const startTime = formatTime(startDate)
+  const endTime = formatTime(endDate)
 
   // Check if the end date is on a different day
-  let endDayFormatted = formatDate(endDate)
+  const endDayFormatted = formatDate(endDate)
   if (startDayFormatted !== endDayFormatted) {
     return `${startDayFormatted}, ${startTime} – ${endDayFormatted}, ${endTime}`
   }

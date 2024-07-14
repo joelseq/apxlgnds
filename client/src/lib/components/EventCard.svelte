@@ -17,9 +17,20 @@
     </div>
   </svelte:fragment>
   <svelte:fragment slot="content">
-    <div class="text-wrap break-words">
+    <div class="text-wrap break-words text-left">
       <strong>{formatDuration(event.startDate, event.endDate)}</strong>
-      {@html event.description || 'No description available.'}
+      {#if event.metadata?.battlefy_url}
+        <div>
+          <a
+            class="underline"
+            href={event.metadata.battlefy_url}
+            target="_blank"
+            title="View in battlefy"
+          >
+            Battlefy
+          </a>
+        </div>
+      {/if}
     </div>
   </svelte:fragment>
 </AccordionItem>
