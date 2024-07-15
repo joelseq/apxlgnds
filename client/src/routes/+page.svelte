@@ -48,11 +48,17 @@
     <h3 class="text-xl bg-gray-700 pt-4">
       {title}
     </h3>
-    <Accordion hover="hover:bg-none" spacing="space-y-0">
-      {#each events as event, i}
-        <EventCard {event} withSeparator={i !== events.length - 1} />
-      {/each}
-    </Accordion>
+    {#if events == null || events.length < 1}
+      <div class="bg-gray-700 p-4">
+        <p>No events to show</p>
+      </div>
+    {:else}
+      <Accordion hover="hover:bg-none" spacing="space-y-0">
+        {#each events as event, i}
+          <EventCard {event} withSeparator={i !== events.length - 1} />
+        {/each}
+      </Accordion>
+    {/if}
   </div>
 {/snippet}
 
