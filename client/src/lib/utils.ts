@@ -16,6 +16,15 @@ function getTimeFromString(date: string): number {
   return new Date(date).getTime()
 }
 
+// Gets a short version of the user's timezone e.g. EDT
+function getUserTimezone(): string {
+  return new Date().toLocaleTimeString('en-us', { timeZoneName: 'short' }).split(' ')[2]
+}
+
+function withTimezone(date: string): string {
+  return date.includes('AM') || date.includes('PM') ? `${date} ${getUserTimezone()}` : date
+}
+
 export function timeUntilEvent(event: Event): string {
   const now = new Date().getTime()
   const startDate = getTimeFromString(event.startDate)
@@ -26,9 +35,7 @@ export function timeUntilEvent(event: Event): string {
     return 'Now'
   }
 
-  // const diffDate = startDate - now > 0 ? startDate : endDate
-
-  return formatRelative(startDate, new Date())
+  return withTimezone(formatRelative(startDate, new Date()))
 }
 
 // Helper functions for formatting from ChatGPT
@@ -83,9 +90,9 @@ export function formatDuration(startDateStr: string, endDateStr: string): string
   // Check if the end date is on a different day
   const endDayFormatted = formatDate(endDate)
   if (startDayFormatted !== endDayFormatted) {
-    return `${startDayFormatted}, ${startTime} – ${endDayFormatted}, ${endTime}`
+    return `${startDayFormatted}, ${startTime} – ${endDayFormatted}, ${endTime} ${getUserTimezone()}`
   }
 
   // If the end date is on the same day
-  return `${startDayFormatted}, ${startTime} – ${endTime}`
+  return `${startDayFormatted}, ${startTime} – ${endTime} ${getUserTimezone()}`
 }
