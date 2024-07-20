@@ -19,16 +19,16 @@ type CalendarEventsResponse struct {
 type Event struct {
 	StartDate   time.Time     `json:"startDate,omitempty"`
 	EndDate     time.Time     `json:"endDate,omitempty"`
-	Metadata    EventMetadata `json:"metadata,omitempty"`
 	Title       string        `json:"title,omitempty"`
 	Description string        `json:"description,omitempty"`
+	Metadata    EventMetadata `json:"metadata,omitempty"`
 }
 
 type EventMetadata struct {
-	Region      string          `json:"region,omitempty"`
-	Day         int             `json:"day,omitempty"`
 	Reddit      *RedditMetadata `json:"reddit,omitempty"`
+	Region      string          `json:"region,omitempty"`
 	BattlefyURL string          `json:"battlefy_url,omitempty"`
+	Day         int             `json:"day,omitempty"`
 	IsFinals    bool            `json:"is_finals,omitempty"`
 }
 
