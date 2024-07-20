@@ -7,6 +7,9 @@
 
   const timeClass =
     new Date(event.endDate).getTime() > new Date().getTime() ? 'text-green-600' : 'text-red-600'
+
+  const metadata = event.metadata
+  const hasMetadata = metadata.battlefy_url || metadata.reddit
 </script>
 
 <AccordionItem class="bg-gray-700 mx-auto p-4">
@@ -21,26 +24,31 @@
       <div>
         <strong>{formatDuration(event.startDate, event.endDate)}</strong>
       </div>
-      {#if event.metadata?.battlefy_url}
-        <div>
-          <strong>Battlefy: </strong>
-          <a
-            class="underline mr-4"
-            href={event.metadata.battlefy_url}
-            target="_blank"
-            title="View in battlefy"
-          >
-            {event.metadata.battlefy_url}
-          </a>
-        </div>
-      {/if}
-      {#if event.metadata?.reddit}
-        <div>
-          <strong>Reddit: </strong>
-          <a class="underline mr-4" href={event.metadata.reddit.url}>
-            {event.metadata.reddit.title}
-          </a>
-        </div>
+      {#if hasMetadata}
+        {#if metadata?.battlefy_url}
+          <div>
+            <strong>Battlefy: </strong>
+            <a
+              class="underline mr-4"
+              href={event.metadata.battlefy_url}
+              target="_blank"
+              title="View in battlefy"
+            >
+              {event.metadata.battlefy_url}
+            </a>
+          </div>
+        {/if}
+        {#if metadata?.reddit}
+          <div>
+            <strong>Reddit: </strong>
+            <a class="underline mr-4" href={metadata.reddit.url}>
+              {metadata.reddit.title}
+            </a>
+          </div>
+        {/if}
+      {:else}
+        <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+        {@html event.description}
       {/if}
     </div>
   </svelte:fragment>
