@@ -4,12 +4,12 @@ import (
 	"context"
 	"log"
 
-	"github.com/joelseq/apxlgnds/internal/calendar"
+	"github.com/joelseq/apxlgnds/internal/reddit"
 )
 
 func main() {
 	ctx := context.Background()
-	_, err := calendar.GetRedditALGSThreads(ctx, false)
+	_, err := reddit.GetRedditALGSThreads(ctx, false)
 	if err != nil {
 		log.Fatalf("failed to get reddit threads: %v", err)
 	}

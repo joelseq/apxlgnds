@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/joelseq/apxlgnds/internal/reddit"
 	"github.com/joelseq/apxlgnds/internal/types"
 	"google.golang.org/api/calendar/v3"
 	"google.golang.org/api/option"
@@ -45,7 +46,7 @@ func (s *service) FetchEvents(ctx context.Context, eventLimit int) (*types.Calen
 	}
 
 	fmt.Printf("Fetched events count: %d\n", len(events.Items))
-	redditResponse, err := GetRedditALGSThreads(ctx, false)
+	redditResponse, err := reddit.GetRedditALGSThreads(ctx, false)
 	if err != nil {
 		fmt.Printf("failed to get reddit response: %v\n", err)
 	}
@@ -53,7 +54,7 @@ func (s *service) FetchEvents(ctx context.Context, eventLimit int) (*types.Calen
 	return generateResponse(events, eventLimit, redditResponse)
 }
 
-func generateResponse(events *calendar.Events, eventLimit int, redditResponse *RedditResponse) (*types.CalendarEventsResponse, error) {
+func generateResponse(events *calendar.Events, eventLimit int, redditResponse *reddit.RedditResponse) (*types.CalendarEventsResponse, error) {
 	res := types.CalendarEventsResponse{}
 
 	parsedEvents := parseEvents(events)
@@ -129,7 +130,7 @@ func groupEvents(events []types.Event, limit int) *types.EventGroup {
 	}
 }
 
-func addALGSMetadata(events *types.EventGroup, redditResponse *RedditResponse) {
+func addALGSMetadata(events *types.EventGroup, redditResponse *reddit.RedditResponse) {
 	addMetadataForEvents(events.Upcoming, redditResponse)
 	addMetadataForEvents(events.Recent, redditResponse)
 }

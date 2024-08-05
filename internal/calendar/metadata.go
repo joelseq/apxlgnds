@@ -6,10 +6,11 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/joelseq/apxlgnds/internal/reddit"
 	"github.com/joelseq/apxlgnds/internal/types"
 )
 
-func addMetadataForEvents(events []types.Event, redditResponse *RedditResponse) {
+func addMetadataForEvents(events []types.Event, redditResponse *reddit.RedditResponse) {
 	for i, event := range events {
 		region := getRegion(event.Title)
 		day := getDay(event.Title)
@@ -74,7 +75,7 @@ func getBattlefyURL(region types.Region, day int, isFinals bool) string {
 	return fmt.Sprintf("https://battlefy.com/apex-legends-global-series-year-4/%s/%s/65fc89113fce34803f734707/round/%d/match/%d", splitURLParam, region.URLParam(), day-1, day-1)
 }
 
-func getRedditMetadata(region types.Region, day string, isFinals bool, redditResponse *RedditResponse) *types.RedditMetadata {
+func getRedditMetadata(region types.Region, day string, isFinals bool, redditResponse *reddit.RedditResponse) *types.RedditMetadata {
 	if redditResponse == nil {
 		return nil
 	}
